@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Constants;
-import Model.Dealer;
-import Model.Deck;
-import Model.Player;
+import Model.*;
 
 import java.util.Scanner;
 
@@ -48,7 +45,12 @@ public class GameController {
                 String result = sc.next();
                 result.toLowerCase();
                 if ("y".equals(result))
-                    player.drawCardFromDeck(deck);
+                    try {
+                        player.drawCardFromDeck(deck);
+                    }
+                    catch (EmptyDeckException e){
+                        //TODO afiseaza mesaj de pachet gol.
+                    }
                 else {
                     //TODO afiseaza cartile, verifica totalul punctelor si opreste jocul
                     if (checkWin(player, dealer) == true){

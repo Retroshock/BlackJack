@@ -14,11 +14,17 @@ public class Player {
 
     // Prima data cand instantiez jucatorul acesta va avea 2 carti la intamplare in mana.
     public Player(Deck deck){
-        drawCardFromDeck(deck);
-        drawCardFromDeck(deck);
+        try {
+            drawCardFromDeck(deck);
+            drawCardFromDeck(deck);
+        }
+        // nu ar trebui sa arunce exceptie pe ramura asta niciodata daca pachetul este nou initializat.
+        catch (EmptyDeckException e){
+            e.printStackTrace();
+        }
     }
 
-    public boolean drawCardFromDeck(Deck deck){
+    public boolean drawCardFromDeck(Deck deck) throws EmptyDeckException{
         int randomCardIndex = (int) Math.floor(Math.random() * deck.getSize()); // trage o carte la intamplare din pachet (indici de la 0 la deck.size)
         Card card = deck.drawCardFromDeck(randomCardIndex);
         if (card.getPoints() + totalPoints <= Constants.WIN) {

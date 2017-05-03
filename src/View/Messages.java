@@ -18,4 +18,8 @@ public class Messages {
         System.out.println("Play Again? Y/N");
     }
 
+    public static void showBeginningMessage(){
+        System.out.println("Welcome! Let the game begin. \n Initial draw.");
+    }
+
 }

@@ -114,7 +114,7 @@ public class Deck {
     }
 
     // Scoate din pachet cartea cu indicele i
-    public Card drawCardFromDeck (int i){
+    public Card drawCardFromDeck (int i) throws EmptyDeckException{
         if (size != 0) {
             Card tempCard = pack.get(i);
             pack.remove(i);
@@ -122,7 +122,7 @@ public class Deck {
             return tempCard;
         }
         else{
-            throw  new EmptyDeckException;
+            throw  new EmptyDeckException();
         }
     }
 

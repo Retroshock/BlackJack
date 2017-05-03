@@ -12,6 +12,11 @@ public class Player {
     private ArrayList<Card> hand = new ArrayList<>();
     private int totalPoints = 0;
 
+    public Player(Player player){
+        this.hand = player.getHand();
+        this.totalPoints = player.getTotalPoints();
+    }
+
     // Prima data cand instantiez jucatorul acesta va avea 2 carti la intamplare in mana.
     public Player(Deck deck){
         try {
@@ -33,6 +38,8 @@ public class Player {
             return true;
         }
         else{
+            totalPoints += card.getPoints();
+            hand.add(card);
             return false; // daca jocul se termina atunci cand trage o carte
         }
     }

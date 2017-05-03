@@ -1,9 +1,8 @@
 package View;
 
-import Model.Dealer;
 import Model.Player;
 
-import javax.xml.bind.SchemaOutputResolver;
+
 
 /**
  * Created by Adrian on 02.05.2017.
@@ -27,21 +26,27 @@ public class Messages {
 
 
     public static void showPlayerHand(Player player){
-        // Aici ma folosesc de clasa dealer propriu-zis
-        if (player instanceof Dealer) {
-            System.out.println("The dealer hand: ");
-            System.out.print(player.getHand().get(0).toString() + ' ' + "{ Hidden }");
-            System.out.println();
-        }
-        else {
+        // Aici afisez mana jucatorului
             System.out.println("The player hand: ");
-            System.out.print(player.getHand().get(0).toString() + ' ' + player.getHand().get(1));
+            player.getHand().stream().forEach( x -> System.out.print(x.toString() + " "));
             System.out.println();
-        }
     }
 
-    public static  void showDrawMessage(){
-        System.out.println("Draw!");
+    public static void showDealerHand(Player player){
+        // Aici afisez mana dealerului
+        System.out.println("The dealer hand: ");
+        player.getHand().stream().forEach( x -> System.out.print(x.toString() ));
+        System.out.println();
+    }
+
+    public static void showHiddenDealerHand(Player dealer){
+        System.out.println("The dealer hand: ");
+        System.out.println(dealer.getHand().get(0) + " " + " { Hidden }");
+        System.out.println();
+    }
+
+    public static  void showDrawMessage(int points){
+        System.out.println("Draw with " + points + " points");
     }
 
     public static void showWinningMessage(Player player){
@@ -55,6 +60,15 @@ public class Messages {
     public static void showEmptyPackMessage(){
         // Nu ar trebui sa se ajunga aici din moment ce este un singur utilizator, dar am adaugat-o in cazul in care se scaleaza aplicatia
         System.out.println("The pack is empty!");
+    }
+
+    public static void showGameOver(){
+        System.out.println("Game Over!");
+    }
+
+    public static void showCardDrawn (Player player){
+        // Prints out the last card added to the hand
+        System.out.print("A " + player.getHand().get(player.getHand().size()-1).toString() + " was drawn from the deck \n \n");
     }
 
 }

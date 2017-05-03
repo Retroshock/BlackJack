@@ -10,84 +10,134 @@ import java.util.Scanner;
  */
 public class GameController {
 
-    public static void main(String[] args) {
-        GameController gc = new GameController();
-    }
 
+    private Scanner sc = new Scanner(System.in);
     private Deck deck;
     private Player player;
-    private Dealer dealer;
+    private Player dealer;
 
-    GameController(){
+    public GameController(){
 
-        //TODO mesaje de inceput
+        // mesaj de inceput
         Messages.showBeginningMessage();
 
         //initializez pachetul
         deck = new Deck();
 
         //Dealerul trage 2 carti
-        dealer = new Dealer(deck);
+        dealer = new Player(deck);
 
         //Jucatorul trage 2 carti
         player = new Player(deck);
 
-        //TODO se afiseaza mana dealerului
-        Messages.showPlayerHand(dealer);
+        // se afiseaza mana dealerului
+        Messages.showHiddenDealerHand(dealer);
 
-        //TODO se afiseaza mana jucatorului
+        // se afiseaza mana jucatorului
         Messages.showPlayerHand(player);
 
         // Se porneste loop-ul, se incepe jocul
         while (true){
             if (player.getTotalPoints() == Constants.WIN){
-                if (dealer.getTotalPoints() == Constants.WIN){
-                    //TODO Afiseaza mesaj de remiza
-                    Messages.showDrawMessage();
+                if (checkDraw(player, dealer)){
+                    // Afiseaza mesaj de remiza
+                    Messages.showDrawMessage(player.getTotalPoints());
+                    break;
                 }
-                //TODO Afiseaza mesaj de castig
+                // Afiseaza mesaj de castig
                 Messages.showWinningMessage(player);
                 break;
             }
-            //TODO afisez mesaj de intrebare (Do you want to draw another card?)
+
+
+
+            // afisez mesaj de intrebare (Do you want to draw another card?)
+
+
+
             Messages.showContinueToDrawQuestion();
-            Scanner sc = new Scanner(System.in);
-            if (sc.hasNext()){
-                String result = sc.next();
-                result.toLowerCase();
-                if ("y".equals(result))
-                    try {
-                        player.drawCardFromDeck(deck);
-                    }
-                    catch (EmptyDeckException e){
-                        //TODO afiseaza mesaj de pachet gol.
-                        |Messages.showEmptyPackMessage();
-                    }
-                else {
-                    //TODO afiseaza cartile ascunse ale dealerului, verifica totalul punctelor si opreste jocul
-                    //transform in tempPlayer dealerul in jucator normal ca sa imi afiseze si cartile lui.
-                    Player tempPlayer = (Player) dealer;
-                    Messages.showPlayerHand(dealer);
-                    while ()
-                    if (checkWin(player, dealer) == true){
-                        //TODO Afiseaza mesaj de castig
+            String result = new String();
+            result = sc.next();
+
+
+            result.toLowerCase();
+            if ("y".equals(result))
+                try {
+                    //verific daca poate trage inca o carte
+                    if (!player.drawCardFromDeck(deck)){
+                        Messages.showCardDrawn(player);
+                        Messages.showLosingMessage(player.getTotalPoints(), dealer.getTotalPoints());
                         break;
                     }
                     else{
-                        //TODO Afiseaza mesaj de pierdut
+                        Messages.showCardDrawn(player);
+                    }
+                }
+                catch (EmptyDeckException e){
+                    // afiseaza mesaj de pachet gol.
+                    Messages.showEmptyPackMessage();
+                }
+            else
+                if ("n".equals(result)) {
+                    // afiseaza cartile ascunse ale dealerului, verifica totalul punctelor si opreste jocul
+
+                    Messages.showDealerHand(dealer);
+
+                    //Dealerul ia carti din pachet cat timp mana sa are mai putin de 17 puncte
+                    while (dealer.getTotalPoints() < 17 ){
+                        try {
+                            if (!dealer.drawCardFromDeck(deck)){
+                                Messages.showCardDrawn(dealer);
+                                Messages.showWinningMessage(player);
+                                break;
+                            }
+                            else{
+                                //afisez cartea trasa din pachet
+                                Messages.showCardDrawn(dealer);
+                            }
+                            Messages.showDealerHand(dealer);
+                        }catch (EmptyDeckException e){
+                            Messages.showEmptyPackMessage();
+                        }
+                    }
+                    //verifica daca dealerul are mai mult de 21 de puncte
+                    if (dealer.getTotalPoints() > 21)
+                        break;
+
+                    if (checkWin(player, dealer) == true ){
+                        // Afiseaza mesaj de castig
+                        Messages.showWinningMessage(player);
+                        break;
+                    }
+                    else{
+                        if (checkDraw(player, dealer)) {
+                            // Afiseaza mesaj de draw
+                            Messages.showDrawMessage(player.getTotalPoints());
+                        }
+                        else{
+                            // Afiseaza mesaj de pierdut
+                            Messages.showLosingMessage(player.getTotalPoints(), dealer.getTotalPoints());
+                        }
                         break;
                     }
 
                 }
-            }
-
 
         }
 
+        Messages.showGameOver();
+        sc.close();
     }
 
-    private boolean checkWin(Player player, Dealer dealer) {
-        if (player.getTotalPoints() > dealer.getTotalPoints())
+    private boolean checkWin(Player player, Player dealer) {
+        if (player.getTotalPoints() > dealer.getTotalPoints() && player.getTotalPoints() < Constants.WIN)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean checkDraw(Player player, Player dealer){
+        if (player.getTotalPoints() == dealer.getTotalPoints())
             return true;
         else
             return false;

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import View.Messages;
 
 import java.util.Scanner;
 
@@ -9,6 +10,10 @@ import java.util.Scanner;
  */
 public class GameController {
 
+    public static void main(String[] args) {
+        GameController gc = new GameController();
+    }
+
     private Deck deck;
     private Player player;
     private Dealer dealer;
@@ -16,6 +21,8 @@ public class GameController {
     GameController(){
 
         //TODO mesaje de inceput
+        Messages.showBeginningMessage();
+
         //initializez pachetul
         deck = new Deck();
 
@@ -26,20 +33,24 @@ public class GameController {
         player = new Player(deck);
 
         //TODO se afiseaza mana dealerului
+        Messages.showPlayerHand(dealer);
 
         //TODO se afiseaza mana jucatorului
+        Messages.showPlayerHand(player);
 
         // Se porneste loop-ul, se incepe jocul
         while (true){
             if (player.getTotalPoints() == Constants.WIN){
                 if (dealer.getTotalPoints() == Constants.WIN){
                     //TODO Afiseaza mesaj de remiza
+                    Messages.showDrawMessage();
                 }
                 //TODO Afiseaza mesaj de castig
-
+                Messages.showWinningMessage(player);
                 break;
             }
             //TODO afisez mesaj de intrebare (Do you want to draw another card?)
+            Messages.showContinueToDrawQuestion();
             Scanner sc = new Scanner(System.in);
             if (sc.hasNext()){
                 String result = sc.next();
@@ -50,9 +61,14 @@ public class GameController {
                     }
                     catch (EmptyDeckException e){
                         //TODO afiseaza mesaj de pachet gol.
+                        |Messages.showEmptyPackMessage();
                     }
                 else {
-                    //TODO afiseaza cartile, verifica totalul punctelor si opreste jocul
+                    //TODO afiseaza cartile ascunse ale dealerului, verifica totalul punctelor si opreste jocul
+                    //transform in tempPlayer dealerul in jucator normal ca sa imi afiseze si cartile lui.
+                    Player tempPlayer = (Player) dealer;
+                    Messages.showPlayerHand(dealer);
+                    while ()
                     if (checkWin(player, dealer) == true){
                         //TODO Afiseaza mesaj de castig
                         break;

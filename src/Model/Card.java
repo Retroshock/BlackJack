@@ -33,7 +33,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{ " +
+        return "{ " +
                  number.toString() +
                 " of " + type.toString() +
                 " }" + "\n";

@@ -14,7 +14,7 @@ public class GameController {
     private Scanner sc = new Scanner(System.in);
     private Deck deck;
     private Player player;
-    private Player dealer;
+    private Dealer dealer;
 
     public GameController(){
 
@@ -25,7 +25,7 @@ public class GameController {
         deck = new Deck();
 
         //Dealerul trage 2 carti
-        dealer = new Player(deck);
+        dealer = new Dealer(deck);
 
         //Jucatorul trage 2 carti
         player = new Player(deck);
@@ -48,8 +48,6 @@ public class GameController {
                 Messages.showWinningMessage(player);
                 break;
             }
-
-
 
             // afisez mesaj de intrebare (Do you want to draw another card?)
 

@@ -17,6 +17,12 @@ public class Card {
         this.number = number;
         setPoints(this.number);
     }
+    // Constructor special pentru As
+    public Card (CardType type, CardNumber number, int points){
+        this.type = type;
+        this.number = number;
+        this.points = points;
+    }
 
     //functie care seteaza automat punctele pentru o valoare a unei carti.
     private void setPoints(CardNumber number) {
@@ -41,5 +47,13 @@ public class Card {
 
     public int getPoints() {
         return points;
+    }
+
+    public CardType getType() {
+        return type;
+    }
+
+    public CardNumber getNumber() {
+        return number;
     }
 }

@@ -71,4 +71,8 @@ public class Messages {
         System.out.print("A " + player.getHand().get(player.getHand().size()-1).toString() + " was drawn from the deck \n \n");
     }
 
+    public static void showAceChoiceQuestion (){
+        System.out.println("You have drawn an Ace. How many points do you consider this Ace to be? 1/11");
+    }
+
 }
